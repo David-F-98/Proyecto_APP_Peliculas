@@ -2,6 +2,7 @@ import fecthPopulares from "./fetchPopulares";
 import cargarTitulos from "./cargarTitulos";
 import cargarGeneros from "./cargarGeneros";
 import "./listenerFiltroTipo";
+import './listenerFiltrosGenerosBtn';
 const cargar = async ()=>{
     
     const resultado = await fecthPopulares();
