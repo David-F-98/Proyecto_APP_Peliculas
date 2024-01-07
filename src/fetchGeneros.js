@@ -1,5 +1,6 @@
-const fetchGeneros = async()=>{
-const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=e2e5d55ea40cc57ceb88131651075e67'
+const fetchGeneros = async(filtro = 'movie')=>{
+    const tipo = filtro === 'movie' ? 'movie' : 'tv' ;
+    const url = `https://api.themoviedb.org/3/genre/${tipo}/list?language=en&api_key=e2e5d55ea40cc57ceb88131651075e67`
     
     
     try{

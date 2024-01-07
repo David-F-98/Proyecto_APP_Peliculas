@@ -1,7 +1,10 @@
 import fetchGeneros from './fetchGeneros';
 const contenedorGeneros = document.getElementById('filtro-generos');
-const cargarGeneros = async ()=>{
-    const generos =  await fetchGeneros();
+const cargarGeneros = async (filtro)=>{
+    const generos =  await fetchGeneros(filtro);
+
+    contenedorGeneros.innerHTML = '';
+
     generos.forEach((genero)=>{
         const btn = document.createElement('button');
         btn.classList.add('btn');

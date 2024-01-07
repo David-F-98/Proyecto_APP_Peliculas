@@ -1,5 +1,8 @@
 const cargarTitulos = (resultados)=>{
     const contenedor = document.querySelector('#populares .main__grid');
+
+    contenedor.innerHTML=('');
+
     resultados.forEach((resultado) => {
         // console.log(resultado.generos);
         const plantilla = `
