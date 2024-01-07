@@ -35,9 +35,8 @@ const fecthPopulares = async()=>{
         
         //Nos devuelve un arreglo
         const resultados = datos.results;
-        //Extraemos el nombre del genero mediante su id
+        //Extraemos el nombre del genero mediante su id en el archivo .js
         const generos = await fetchGeneros();
-        console.log(generos);
 
 
         resultados.forEach((resultado)=>{
@@ -71,10 +70,23 @@ const cargarTitulos = (resultados)=>{
     });
 };
 
+const contenedorGeneros = document.getElementById('filtro-generos');
+const cargarGeneros = async ()=>{
+    const generos =  await fetchGeneros();
+    generos.forEach((genero)=>{
+        const btn = document.createElement('button');
+        btn.classList.add('btn');
+        btn.innerText = genero.name;
+        btn.setAttribute('data-id',genero.id);
+        contenedorGeneros.appendChild(btn);
+    });
+};
+
 const cargar = async ()=>{
     
     const resultado = await fecthPopulares();
     cargarTitulos(resultado);
+    cargarGeneros();
 };
 cargar();
 //# sourceMappingURL=bundle.js.map

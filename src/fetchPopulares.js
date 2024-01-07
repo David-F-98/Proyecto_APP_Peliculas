@@ -9,9 +9,8 @@ const fecthPopulares = async()=>{
         
         //Nos devuelve un arreglo
         const resultados = datos.results;
-        //Extraemos el nombre del genero mediante su id
+        //Extraemos el nombre del genero mediante su id en el archivo .js
         const generos = await fetchGeneros();
-        console.log(generos)
 
 
         resultados.forEach((resultado)=>{
