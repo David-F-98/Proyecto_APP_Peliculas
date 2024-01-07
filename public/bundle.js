@@ -98,6 +98,10 @@ filtroPelicula.addEventListener('click', async (e)=>{
     cargarGeneros('movie');
     const resultados = await fecthPopulares('movie');
     cargarTitulos(resultados);
+
+    filtroSerie.classList.remove('btn--active');
+    filtroPelicula.classList.add('btn--active');
+    document.querySelector('#populares .main__titulo').innerText = 'Películas Populares';
 });
 
 filtroSerie.addEventListener('click', async (e)=>{
@@ -106,6 +110,11 @@ filtroSerie.addEventListener('click', async (e)=>{
     cargarGeneros('tv');
     const resultados = await fecthPopulares('tv');
     cargarTitulos(resultados);
+
+    filtroPelicula.classList.remove('btn--active');
+    filtroSerie.classList.add('btn--active');
+    
+    document.querySelector('#populares .main__titulo').innerText = 'Series Populares';
 });
 
 const cargar = async ()=>{
