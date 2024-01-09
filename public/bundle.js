@@ -130,7 +130,7 @@ contenedor.addEventListener('click',(e)=>{
     }
 });
 
-const fecthBusqueda = async()=>{
+const fecthBusqueda = async(pagina = 1)=>{
     const tipo =  document.querySelector('.main__filtros .btn--active')?.id;
     const idGenero =  document.querySelector('#filtro-generos .btn--active')?.dataset.id;
     const anoInicial = document.querySelector('#años-min').value || 1950;
@@ -138,9 +138,9 @@ const fecthBusqueda = async()=>{
 
     let url;
     if(tipo === 'movie'){
-        url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=es-MX&page=1&release_date.gte=${anoInicial}&release_date.lte=${anoFinal}&sort_by=popularity.desc&with_genres=${idGenero}&api_key=e2e5d55ea40cc57ceb88131651075e67`;
+        url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=es-MX&page=${pagina}&release_date.gte=${anoInicial}&release_date.lte=${anoFinal}&sort_by=popularity.desc&with_genres=${idGenero}&api_key=e2e5d55ea40cc57ceb88131651075e67`;
     } else if(tipo==='tv'){
-        url = `https://api.themoviedb.org/3/discover/tv?first_air_date.gte=${anoInicial}&first_air_date.lte=${anoFinal}&include_adult=false&include_null_first_air_dates=false&language=es-MX&page=1&sort_by=popularity.desc&with_genres=${idGenero}&api_key=e2e5d55ea40cc57ceb88131651075e67`;
+        url = `https://api.themoviedb.org/3/discover/tv?first_air_date.gte=${anoInicial}&first_air_date.lte=${anoFinal}&include_adult=false&include_null_first_air_dates=false&language=es-MX&page=${pagina}&sort_by=popularity.desc&with_genres=${idGenero}&api_key=e2e5d55ea40cc57ceb88131651075e67`;
     }
     try {
         const respuesta = await fetch(url);
@@ -165,6 +165,38 @@ btnBuscar.addEventListener('click',async (e)=>{
     e.preventDefault();
     const resultados = await fecthBusqueda();
     cargarTitulos(resultados);
+});
+
+const btnPaginaAnterior = document.getElementById('pagina-anterior');
+const btnPaginaSiguiente = document.getElementById('pagina-siguiente');
+
+btnPaginaSiguiente.addEventListener('click',async(e)=>{
+    e.preventDefault();
+    const paginaActual = document.getElementById('populares').dataset.pagina; 
+    try {
+        const resultados = await fecthBusqueda(paginaActual+1);
+        //Modificamos el atributo del elemento 
+        document.getElementById('populares').setAttribute('data-pagina', parseInt(paginaActual) + 1);
+        cargarTitulos(resultados);
+        window.scrollTo(0,0);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+btnPaginaAnterior.addEventListener('click',async(e)=>{
+    e.preventDefault();
+    const paginaActual = document.getElementById('populares').dataset.pagina; 
+    if(parseInt(paginaActual)>1){
+        try {
+            const resultados = await fecthBusqueda(paginaActual-1);
+            //Modificamos el atributo del elemento 
+            document.getElementById('populares').setAttribute('data-pagina', parseInt(paginaActual) - 1);
+            cargarTitulos(resultados);
+            window.scrollTo(0,0);
+        } catch (error) {
+            console.log(error);
+        }    }        
 });
 
 const cargar = async ()=>{
