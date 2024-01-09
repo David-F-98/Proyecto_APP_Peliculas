@@ -61,7 +61,7 @@ const cargarTitulos = (resultados)=>{
     resultados.forEach((resultado) => {
         // console.log(resultado.generos);
         const plantilla = `
-        <div class="main__media">
+        <div class="main__media" data-id=${resultado.id}>
             <a href="#" class="main__media-thumb">
                 <img class="main__media-img" src="https://image.tmdb.org/t/p/w500/${resultado.poster_path}" alt="" />
             </a>
@@ -117,13 +117,13 @@ filtroSerie.addEventListener('click', async (e)=>{
     document.querySelector('#populares .main__titulo').innerText = 'Series Populares';
 });
 
-const contenedor =  document.getElementById('filtro-generos');
-contenedor.addEventListener('click',(e)=>{
+const contenedor$1 =  document.getElementById('filtro-generos');
+contenedor$1.addEventListener('click',(e)=>{
     e.preventDefault();
 
     if(e.target.closest('button')){
 
-        contenedor.querySelector('.btn--active')?.classList.remove('btn--active');
+        contenedor$1.querySelector('.btn--active')?.classList.remove('btn--active');
 
 
         e.target.classList.add('btn--active');
@@ -197,6 +197,63 @@ btnPaginaAnterior.addEventListener('click',async(e)=>{
         } catch (error) {
             console.log(error);
         }    }        
+});
+
+const fetchItem = async(id)=>{
+    const tipo = document.querySelector('.main__filtros .btn--active').id;
+    try {
+        const url = `https://api.themoviedb.org/3/${tipo}/${id}?language=es-MX&api_key=e2e5d55ea40cc57ceb88131651075e67`;
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+        return datos;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const popup =  document.getElementById('media');
+const contenedor  =  document.getElementById('populares');
+contenedor.addEventListener('click',async(e)=>{
+    e.preventDefault();
+    if(e.target.closest('.main__media')){
+        popup.classList.add('media--active');
+        const id = e.target.closest('.main__media').dataset.id;
+        const resultado = await fetchItem(id);
+        const plantilla = `
+        <div class="media__backdrop">
+        <img
+        src="https://image.tmdb.org/t/p/w500/${resultado.backdrop_path}"
+        class="media__backdrop-image"
+        />
+        </div>
+        <div class="media__imagen">
+        <img
+        src="https://image.tmdb.org/t/p/w500/${resultado.poster_path}"
+        class="media__poster"
+        />
+        </div>
+        <div class="media__info">
+        <h1 class="media__titulo">${resultado.original_title || resultado.name}</h1>
+        <p class="media__fecha">${resultado.release_date || resultado.first_air_date}</p>
+        <p class="media__overview">${resultado.overview}</p>
+        </div>
+        <button class="media__btn">
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+        class="media__btn-icono"
+        >
+        <path
+        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+        />
+        </svg>
+        </button>
+        `;
+        document.querySelector('#media .media__contenedor').innerHTML= plantilla;
+    }
 });
 
 const cargar = async ()=>{

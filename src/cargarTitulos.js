@@ -6,7 +6,7 @@ const cargarTitulos = (resultados)=>{
     resultados.forEach((resultado) => {
         // console.log(resultado.generos);
         const plantilla = `
-        <div class="main__media">
+        <div class="main__media" data-id=${resultado.id}>
             <a href="#" class="main__media-thumb">
                 <img class="main__media-img" src="https://image.tmdb.org/t/p/w500/${resultado.poster_path}" alt="" />
             </a>

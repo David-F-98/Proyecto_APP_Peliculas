@@ -5,6 +5,7 @@ import "./listenerFiltroTipo";
 import './listenerFiltrosGenerosBtn';
 import './listenerBuscar';
 import './paginacion';
+import './listenerItems';
 const cargar = async ()=>{
     
     const resultado = await fecthPopulares();
