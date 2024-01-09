@@ -211,12 +211,12 @@ const fetchItem = async(id)=>{
     }
 };
 
-const popup =  document.getElementById('media');
+const popup$1 =  document.getElementById('media');
 const contenedor  =  document.getElementById('populares');
 contenedor.addEventListener('click',async(e)=>{
     e.preventDefault();
     if(e.target.closest('.main__media')){
-        popup.classList.add('media--active');
+        popup$1.classList.add('media--active');
         const id = e.target.closest('.main__media').dataset.id;
         const resultado = await fetchItem(id);
         const plantilla = `
@@ -253,6 +253,14 @@ contenedor.addEventListener('click',async(e)=>{
         </button>
         `;
         document.querySelector('#media .media__contenedor').innerHTML= plantilla;
+    }
+});
+
+const popup = document.getElementById('media');
+popup.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(e.target.closest('button')){
+        popup.classList.remove('media--active');
     }
 });
 
